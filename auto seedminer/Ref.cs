@@ -12,6 +12,9 @@ namespace auto_seedminer {
 
         public static readonly string file_log = dir_working + "\\auto_seedminer_latest.log";
 
+        public static readonly string name_breadcrumb = "\\auto_seedminer_breadcrumb_DO_NOT_DELETE.dat";
+        public static readonly string name_3DSBackup = "Nintendo 3DS auto seedminer backup DO NOT DELETE";
+
         public static readonly string url_usa = "https://storage.googleapis.com/noahc3_hacktools/3ds/auto_seedminer/usa.tsv";
         public static readonly string url_eur = "https://storage.googleapis.com/noahc3_hacktools/3ds/auto_seedminer/eur.tsv";
         public static readonly string url_jpn = "https://storage.googleapis.com/noahc3_hacktools/3ds/auto_seedminer/jpn.tsv";

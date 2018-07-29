@@ -15,10 +15,11 @@ namespace auto_seedminer {
     public partial class FormSDCard : Form {
 
         List<DriveInfo> rawDrives = new List<DriveInfo>();
+        DriveDetector driveDetector;
 
         public FormSDCard() {
             InitializeComponent();
-            DriveDetector driveDetector = new DriveDetector();
+            driveDetector = new DriveDetector();
             driveDetector.DeviceArrived += new DriveDetectorEventHandler(OnDriveArrived);
             driveDetector.DeviceRemoved += new DriveDetectorEventHandler(OnDriveRemoved);
         }
@@ -65,6 +66,10 @@ namespace auto_seedminer {
 
         private void OnDriveRemoved(object sender, DriveDetectorEventArgs e) {
             UpdateDevices();
+        }
+
+        private void FormSDCard_FormClosing(object sender, FormClosingEventArgs e) {
+            driveDetector.Dispose();
         }
     }
 }

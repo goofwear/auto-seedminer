@@ -7,12 +7,18 @@ using Microsoft.VisualBasic.FileIO;
 using System.IO;
 using System.Net;
 using System.Net.Http;
+using Dolinay;
+using System.Threading;
 
 namespace auto_seedminer {
     class U7s {
 
         private static WebClient web = new WebClient();
         private static HttpClient http = new HttpClient();
+
+        private static DriveDetector driveDetector;
+
+        private static bool waitingForSDCard = false;
 
         //stuff sent through this method displays information to the user AND logs it to file
         public static void info(string message) {
@@ -53,6 +59,28 @@ namespace auto_seedminer {
             for (int i = 1; i < titlesJPN.Count(); i++) {
                 string[] info = titlesJPN[i].Split('\t');
                 G4l.titles_jpn.Add(new G4l.title(info[0], info[2], info[1], info[4], info[3]));
+            }
+        }
+
+        public static void WaitForSDRemount() {
+            waitingForSDCard = true;
+            CheckForSD();
+            if (!waitingForSDCard) return;
+
+            while (waitingForSDCard) {
+                Thread.Sleep(500);
+                CheckForSD();
+            }
+        }
+
+        private static void CheckForSD() {
+            foreach (DriveInfo drive in DriveInfo.GetDrives()) {
+                if (drive.DriveType == DriveType.Removable && FileSystem.FileExists(drive.RootDirectory + Ref.name_breadcrumb)) {
+                    if (File.ReadAllLines(drive.RootDirectory + Ref.name_breadcrumb)[0].Contains(G4l.sessionID)) {
+                        G4l.sdCard = drive;
+                        waitingForSDCard = false;
+                    }
+                }
             }
         }
     }

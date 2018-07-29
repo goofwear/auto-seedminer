@@ -7,6 +7,9 @@ using System.IO;
 
 namespace auto_seedminer {
     public static class G4l {
+
+        public static string sessionID;
+
         public static StreamWriter streamLog;
 
         public static FormInfo frmInfo;
